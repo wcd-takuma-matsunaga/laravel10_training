@@ -12,7 +12,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
+        $user = auth()->user();
+        return view('post.index', compact('posts', 'user'));
     }
 
     /**
@@ -45,7 +47,7 @@ class PostController extends Controller
             request()->file('image')->move('storage/images', $name);
             $post->image = $name;
         }
-        
+
         $post->save();
 
         return redirect()->route('post.create')->with('message', '投稿を作成しました');
