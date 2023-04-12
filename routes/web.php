@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('post/mypost',[PostController::class, 'mypost'])->name('post.mypost');
+Route::get('post/mycomment',[PostController::class, 'mycomment'])->name('post.mycomment');
+
 // Postのリソースコントローラーを使用したルーティング
 Route::resource('post', PostController::class);
 

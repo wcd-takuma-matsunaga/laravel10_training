@@ -18,6 +18,12 @@
                     <x-nav-link :href="route('post.create')" :active="request()->routeIs('post.create')">
                         新規作成
                     </x-nav-link>
+                    <x-nav-link :href="route('post.mypost')" :active="request()->routeIs('post.mypost')">
+                        自分の投稿
+                    </x-nav-link>
+                    <x-nav-link :href="route('post.mycomment')" :active="request()->routeIs('post.mycomment')">
+                        コメントした投稿
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -74,6 +80,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('post.create')" :active="request()->routeIs('post.create')">
                 新規作成
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('post.mycomment')" :active="request()->routeIs('post.mycomment')">
+                コメントした投稿
             </x-responsive-nav-link>
         </div>
 
