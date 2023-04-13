@@ -21,7 +21,8 @@ Route::get('post/mypost', [PostController::class, 'mypost'])->name('post.mypost'
 Route::get('post/mycomment', [PostController::class, 'mycomment'])->name('post.mycomment');
 
 // Postのリソースコントローラーを使用したルーティング
-Route::resource('post', PostController::class);
+Route::resource('post', PostController::class, ['except' => ['edit']]);
+Route::get('post/{post}/edit', [PostController::class, 'edit'])->middleware('can:update,post')->name('post.edit');
 
 // コメントのルーティング
 Route::post('/post/comment/store', [CommentController::class, 'store'])->name('comment.store');
