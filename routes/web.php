@@ -28,8 +28,8 @@ Route::post('/post/comment/store', [CommentController::class, 'store'])->name('c
 
 // お問い合わせフォームのルーティング
 Route::controller(ContactController::class)->group(function () {
-    Route::get('contact/create','create')->name('contact.create');
-    Route::post('contact/store','store')->name('contact.store');
+    Route::get('contact/create', 'create')->name('contact.create')->middleware('guest');
+    Route::post('contact/store', 'store')->name('contact.store');
 });
 
 Route::get('/', function () {
@@ -39,6 +39,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'can:admin'])->group(function () {
+    Route::get('profile/index', [ProfileController::class, 'index'])->name('profile.index');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
