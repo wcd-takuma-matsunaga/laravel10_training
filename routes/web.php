@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,12 @@ Route::resource('post', PostController::class);
 
 // コメントのルーティング
 Route::post('/post/comment/store', [CommentController::class, 'store'])->name('comment.store');
+
+// お問い合わせフォームのルーティング
+Route::controller(ContactController::class)->group(function () {
+    Route::get('contact/create','create')->name('contact.create');
+    Route::post('contact/store','store')->name('contact.store');
+});
 
 Route::get('/', function () {
     return view('welcome');
