@@ -17,20 +17,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('post/mypost', [PostController::class, 'mypost'])->name('post.mypost');
-Route::get('post/mycomment', [PostController::class, 'mycomment'])->name('post.mycomment');
-
-// Postのリソースコントローラーを使用したルーティング
-Route::resource('post', PostController::class, ['except' => ['edit']]);
-Route::get('post/{post}/edit', [PostController::class, 'edit'])->middleware('can:update,post')->name('post.edit');
-
-// コメントのルーティング
-Route::post('/post/comment/store', [CommentController::class, 'store'])->name('comment.store');
-
 // お問い合わせフォームのルーティング
 Route::controller(ContactController::class)->group(function () {
     Route::get('contact/create', 'create')->name('contact.create')->middleware('guest');
     Route::post('contact/store', 'store')->name('contact.store');
+});
+
+Route::middleware('verified')->group(function () {
+    Route::get('post/mypost', [PostController::class, 'mypost'])->name('post.mypost');
+    Route::get('post/mycomment', [PostController::class, 'mycomment'])->name('post.mycomment');
+
+    // Postのリソースコントローラーを使用したルーティング
+    Route::resource('post', PostController::class, ['except' => ['edit']]);
+    Route::get('post/{post}/edit', [PostController::class, 'edit'])->middleware('can:update,post')->name('post.edit');
+
+    // コメントのルーティング
+    Route::post('/post/comment/store', [CommentController::class, 'store'])->name('comment.store');
+
+    Route::middleware(['auth', 'can:admin'])->group(function () {
+        Route::get('profile/index', [ProfileController::class, 'index'])->name('profile.index');
+    });
 });
 
 Route::get('/', function () {
@@ -41,9 +47,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'can:admin'])->group(function () {
-    Route::get('profile/index', [ProfileController::class, 'index'])->name('profile.index');
-});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
