@@ -38,8 +38,8 @@
                         </div>
                         <hr class="w-full">
                         <p class="mt-4 text-gray-600 py-4">{{Str::limit ($post->body, 100, ' …' )}} </p>
-                        <div class="text-sm font-semibold flex flex-row-reverse">
-                            <p> {{ $post->user->name }} • {{$post->created_at->diffForHumans()}}</p>
+                        <div class="text-muted small">
+                            {{$post->user->name??'削除されたユーザー'}}
                         </div>
                         {{-- 追加部分 --}}
                         <hr class="w-full mb-2">

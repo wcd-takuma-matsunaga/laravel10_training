@@ -48,8 +48,8 @@
                         </div>
                         <img src="{{ asset('storage/images/'.$post->image)}}" class="mx-auto" style="height:300px;">
                         @endif
-                        <div class="text-sm font-semibold flex flex-row-reverse">
-                            <p> {{ $post->user->name}} • {{$post->created_at->diffForHumans()}}</p>
+                        <div class="text-muted small mr-3">
+                            {{$post->user->name??'削除されたユーザー'}}
                         </div>
                     </div>
                 </div>
@@ -57,10 +57,8 @@
                 <div class="bg-white w-full  rounded-2xl px-10 py-8 shadow-lg mt-8 whitespace-pre-line">
                     {{$comment->body}}
                     <div class="text-sm font-semibold flex flex-row-reverse">
-                        {{-- クラスを変更 --}}
-                        <p class="float-left pt-4"> {{ $comment->user->name }} •
+                        <p class="float-left pt-4"> {{ $comment->user->name??'削除されたユーザー' }} •
                             {{$comment->created_at->diffForHumans()}}</p>
-                        {{-- アバター追加 --}}
                         <span class="rounded-full w-12 h-12">
                             <img src="{{asset('storage/avatar/'.($comment->user->avatar??'user_default.jpg'))}}">
                         </span>

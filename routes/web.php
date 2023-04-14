@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,11 +38,21 @@ Route::middleware('verified')->group(function () {
     //profileのedit,update,deleteのルーティング
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware(['auth', 'can:admin'])->group(function () {
         Route::get('profile/index', [ProfileController::class, 'index'])->name('profile.index');
     });
+});
+
+// 管理者用画面のルーティング
+Route::middleware(['auth', 'can:admin'])->group(function () {
+    Route::get('profile/index', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/adedit/{user}', [ProfileController::class, 'adedit'])->name('profile.adedit');
+    Route::patch('/profile/adupdate/{user}', [ProfileController::class, 'adupdate'])->name('profile.adupdate');
+    Route::delete('/profile/{user}', [ProfileController::class, 'addestroy'])->name('profile.addestroy');
+    Route::patch('roles/{user}/attach', [RoleController::class, 'attach'])->name('role.attach');
+    Route::patch('roles/{user}/detach', [RoleController::class, 'detach'])->name('role.detach');
 });
 
 Route::get('/', function () {
